@@ -2,14 +2,14 @@ FROM alpine:latest
 
 # ssh-keygen -A generates all necessary host keys (rsa, dsa, ecdsa, ed25519) at default location.
 RUN    apk update \
-    && apk add openssh \
-    && mkdir /root/.ssh \
-    && chmod 0700 /root/.ssh \
-    && ssh-keygen -A 
+    && apk add openssh rsync
 
 COPY ./sshd_config /etc/ssh/sshd_config
 
-RUN addgroup -S user && adduser -S user -G user  -s /bin/ash -h /home/user && passwd -d -u user
+ENV UID=1000
+ENV GID=1000
+
+RUN addgroup -S user -g $GID && adduser -S user -G user --uid $UID -s /bin/ash -h /home/user && passwd -d -u user
 
 USER user
 WORKDIR /home/user

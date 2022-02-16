@@ -8,3 +8,4 @@ PrintMotd no
 AcceptEnv LANG LC_*
 
 PermitRootLogin yes
+HostKey /server_keys/etc/ssh/ssh_host_ecdsa_key 
