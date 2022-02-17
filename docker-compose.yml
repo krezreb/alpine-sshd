@@ -1,0 +1,13 @@
+version : '3.0'
+
+services:
+    sshd:
+        build: .
+        ports:
+            - "2222:22"
+        volumes:
+            - server_keys:/server_keys
+            - ./authorized_keys:/home/user/.ssh/authorized_keys:ro
+    
+volumes:
+    server_keys:
