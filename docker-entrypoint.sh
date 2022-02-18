@@ -3,6 +3,10 @@
 if [ -d /server_keys ] ; then
   mkdir -p /server_keys/etc/ssh/ | true
   ssh-keygen -A -f /server_keys/
+
+  for l in $(ls /server_keys/etc/ssh/) ; do
+        ln -s /server_keys/etc/ssh/$l /etc/ssh/ | true
+  done
 fi 
 
 if [ -z "${AUTHORIZED_KEYS}" ]; then
