@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 
 if [ -d /server_keys ] ; then
   mkdir -p /server_keys/etc/ssh/ | true
@@ -9,12 +10,35 @@ if [ -d /server_keys ] ; then
   done
 fi 
 
-if [ -z "${AUTHORIZED_KEYS}" ]; then
-  echo "AUTHORIZED_KEYS env variable not set."
-else
-  echo "Populating authorized_keys with the value from AUTHORIZED_KEYS env variable ..."
-  echo "${AUTHORIZED_KEYS}" > /home/user/.ssh/authorized_keys
-fi
+USER_HOME=/home/user
+
+mkdir ${USER_HOME}/.ssh/ || true
+
+echo "" > ${USER_HOME}/.ssh/authorized_keys
+
+# for all ENV VARS that start with SSH_PUBKEY, dump to authorized_keys
+for k in $(printenv | grep ^SSH_PUBKEY | cut -d"=" -f1); do
+    echo $(printf '%s\n' "${!k}") >> ${USER_HOME}/.ssh/authorized_keys
+done
+
+chown 1000:1000 ${USER_HOME}/.ssh/authorized_keys
+chmod 0600 ${USER_HOME}/.ssh/authorized_keys
+
+
+USER_HOME=/home/tunnel_user
+
+mkdir ${USER_HOME}/.ssh/ || true
+
+echo "" > ${USER_HOME}/.ssh/authorized_keys
+
+# for all ENV VARS that start with SSH_PUBKEY, dump to authorized_keys
+for k in $(printenv | grep ^TUNNEL_SSH_PUBKEY | cut -d"=" -f1); do
+    echo $(printf '%s\n' "${!k}") >> ${USER_HOME}/.ssh/authorized_keys
+done
+
+chown 1001:1001 ${USER_HOME}/.ssh/authorized_keys
+chmod 0600 ${USER_HOME}/.ssh/authorized_keys
+
 
 exec "$@"
 

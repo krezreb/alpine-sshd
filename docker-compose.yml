@@ -7,7 +7,8 @@ services:
             - "2222:22"
         volumes:
             - server_keys:/server_keys
-            - ./authorized_keys:/home/user/.ssh/authorized_keys:ro
+        environment:
+            - SSH_PUBKEY_1: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCWwATdfklgjhsdflkjghsdfkljghsdflkjgh...F6igWaN1zw== user@example
     
 volumes:
     server_keys:
