@@ -10,6 +10,10 @@ if [ -d /server_keys ] ; then
   done
 fi 
 
+# in case some other script has come along after the fact to 
+# mess up permissions, set them back to be correct
+chmod -R 0600 /server_keys/etc/ssh
+
 USER_HOME=/home/user
 
 mkdir ${USER_HOME}/.ssh/ || true
@@ -21,7 +25,7 @@ for k in $(printenv | grep ^SSH_PUBKEY | cut -d"=" -f1); do
     echo $(printf '%s\n' "${!k}") >> ${USER_HOME}/.ssh/authorized_keys
 done
 
-chown 1000:1000 ${USER_HOME}/.ssh/authorized_keys
+chown ${UID}:${GID} ${USER_HOME}/.ssh/authorized_keys
 chmod 0600 ${USER_HOME}/.ssh/authorized_keys
 
 
