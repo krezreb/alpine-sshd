@@ -29,7 +29,7 @@ chown ${UID}:${GID} ${USER_HOME}/.ssh/authorized_keys
 chmod 0600 ${USER_HOME}/.ssh/authorized_keys
 
 
-USER_HOME=/home/tunnel_user
+USER_HOME=/home/tunnel
 
 mkdir ${USER_HOME}/.ssh/ || true
 

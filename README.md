@@ -3,14 +3,14 @@ This is a very simple alpine based SSHD server, listening on port 22. It has no 
 
 ## Security features:
 * Login as `user`.  `user` does not have admin rights.
-* There is a second user called `tunnel_user` who does not have a shell and can only be used to create users
+* There is a second user called `tunnel` who does not have a shell and can only be used to create tunnels
 * The only authentication enabled over ssh is key based authentication
 
 
 ## setup
 
 * For the `user` the container expects one or more env variables prefixed "SSH_PUBKEY" with authorized client ssh keys. 
-* For the `tunnel_user` the container expects one or more env variables prefixed "TUNNEL_SSH_PUBKEY" with authorized client ssh keys. 
+* For the `tunnel` user the container expects one or more env variables prefixed "TUNNEL_SSH_PUBKEY" with authorized client ssh keys. 
 
 ```yaml
 services:
@@ -36,3 +36,7 @@ Now access this container using ssh, port 2222:
 [jbeeson@workhorse alpine-sshd]$ ssh user@172.17.0.2 -p 2222
 a85de77b70a1:~# 
 ```
+
+## about tunnels
+
+If you use this image for reverse tunnels, keep in mind that the port opened in the container will not be accessible to the host machine, even if you specify port mapping in docker compose.  In order to access ports opened in the container, you'll need to use an ssh jump.

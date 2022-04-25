@@ -14,14 +14,14 @@ RUN addgroup -S user -g $GID && adduser -S user -G user --uid $UID -s /bin/bash 
 ENV UID=1001
 ENV GID=1001
 
-RUN addgroup -S tunnel_user -g $GID && adduser -S tunnel_user -G tunnel_user --uid $UID -s /bin/false -h /home/tunnel_user && passwd -d -u tunnel_user
+RUN addgroup -S tunnel -g $GID && adduser -S tunnel -G tunnel --uid $UID -s /bin/false -h /home/tunnel && passwd -d -u tunnel
 
 USER user
 WORKDIR /home/user
 RUN mkdir -p .ssh && touch .ssh/authorized_keys && chmod 644 .ssh/authorized_keys
 
-USER tunnel_user
-WORKDIR /home/tunnel_user
+USER tunnel
+WORKDIR /home/tunnel
 RUN mkdir -p .ssh && touch .ssh/authorized_keys && chmod 644 .ssh/authorized_keys
 
 USER root
