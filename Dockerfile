@@ -6,15 +6,9 @@ RUN    apk update \
 
 COPY ./sshd_config /etc/ssh/sshd_config
 
-ENV UID=1000
-ENV GID=1000
+RUN addgroup -S user && adduser -S user -G user -s /bin/bash -h /home/user && passwd -d -u user
 
-RUN addgroup -S user -g $GID && adduser -S user -G user --uid $UID -s /bin/bash -h /home/user && passwd -d -u user
-
-ENV UID=1001
-ENV GID=1001
-
-RUN addgroup -S tunnel -g $GID && adduser -S tunnel -G tunnel --uid $UID -s /bin/false -h /home/tunnel && passwd -d -u tunnel
+RUN addgroup -S tunnel && adduser -S tunnel -G tunnel -s /bin/false -h /home/tunnel && passwd -d -u tunnel
 
 USER user
 WORKDIR /home/user

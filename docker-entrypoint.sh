@@ -25,7 +25,7 @@ for k in $(printenv | grep ^SSH_PUBKEY | cut -d"=" -f1); do
     echo $(printf '%s\n' "${!k}") >> ${USER_HOME}/.ssh/authorized_keys
 done
 
-chown ${UID}:${GID} ${USER_HOME}/.ssh/authorized_keys
+chown user:user ${USER_HOME}/.ssh/authorized_keys
 chmod 0600 ${USER_HOME}/.ssh/authorized_keys
 
 
@@ -40,7 +40,7 @@ for k in $(printenv | grep ^TUNNEL_SSH_PUBKEY | cut -d"=" -f1); do
     echo $(printf '%s\n' "${!k}") >> ${USER_HOME}/.ssh/authorized_keys
 done
 
-chown 1001:1001 ${USER_HOME}/.ssh/authorized_keys
+chown tunnel:tunnel ${USER_HOME}/.ssh/authorized_keys
 chmod 0600 ${USER_HOME}/.ssh/authorized_keys
 
 
